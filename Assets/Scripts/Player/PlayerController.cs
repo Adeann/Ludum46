@@ -17,9 +17,10 @@ public class PlayerController : Actor
 
     void Update()
     {
-        if (Input.GetButton("Fire1") && this.primaryAttack != null)
+        if (Input.GetButtonDown("Fire1") && this.primaryAttack != null)
         {
             this.primaryAttack.UnModifiedAttack();
+            StartCoroutine(this.primaryAttack.InterFire(this.primaryAttack.rof));
         }
         else if (Input.GetButton("Fire2") && this.secondaryAttack != null)
         {
