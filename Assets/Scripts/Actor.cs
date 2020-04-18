@@ -22,6 +22,7 @@ public class Actor : MonoBehaviour
     public float health;
     private float maxArmor;
     public float armor;
+    public float vision;
 
     public Attack primaryAttack;
     public Attack secondaryAttack;
@@ -38,6 +39,7 @@ public class Actor : MonoBehaviour
         fallMult = 2.5f;
         lowJumpMult = 2f;
         rb.drag = 2f;
+        vision = 10f;
 
         this.faction = Factions.Neutral;
     }
