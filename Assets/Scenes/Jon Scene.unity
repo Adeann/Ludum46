@@ -179,7 +179,6 @@ GameObject:
   - component: {fileID: 661407157}
   - component: {fileID: 661407161}
   - component: {fileID: 661407162}
-  - component: {fileID: 661407163}
   m_Layer: 0
   m_Name: alien
   m_TagString: Untagged
@@ -247,7 +246,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 70062ec43a5cb1a42a46873089ce28ae, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 966935f55658ba94a8373735d2a354ff, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -309,7 +308,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 661407156}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2936d0189bd37664cbc3aaf160604df8, type: 3}
+  m_Script: {fileID: 11500000, guid: 06269c3c6a6cdc04e834a40d096f419a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isGrounded: 0
@@ -323,18 +322,9 @@ MonoBehaviour:
   yForce: 0
   fallMult: 2.5
   lowJumpMult: 2
---- !u!114 &661407163
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 661407156}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78c66642190c34f4a8e97501269a788a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  health: 0
+  armor: 0
+  AI: {fileID: 0}
 --- !u!1 &1131587028
 GameObject:
   m_ObjectHideFlags: 0
