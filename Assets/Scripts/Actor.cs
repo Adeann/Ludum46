@@ -22,6 +22,9 @@ public class Actor : MonoBehaviour
     public float health;
     private float maxArmor;
     public float armor;
+
+    public Attack primaryAttack;
+    public Attack secondaryAttack;
     
     // Start is called before the first frame update
     void Start()
