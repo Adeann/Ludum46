@@ -5,9 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] Rigidbody2D rb;
-    [SerializeField] Transform trans;
-
+    Rigidbody2D rb;
     public float maxSpeed;
 
     public float hspeed;
@@ -19,12 +17,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        hspeed = 50;
-        yForce = 200;
-
+        rb = this.GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetButtonDown("Jump"))
@@ -39,8 +34,6 @@ public class PlayerMovement : MonoBehaviour
         {
             MovePlayer();
         }
-
-        //rb.velocity = vel;
     }
 
     void Jump()

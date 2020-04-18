@@ -973,13 +973,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78c66642190c34f4a8e97501269a788a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 1437675657}
-  trans: {fileID: 1437675655}
   maxSpeed: 5
-  hspeed: 1
+  hspeed: 3
   vel: {x: 0, y: 0}
   isGrounded: 0
-  yForce: 200
+  yForce: 50
 --- !u!212 &1437675654
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1038,7 +1036,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1437675652}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+<<<<<<< HEAD
   m_LocalPosition: {x: -0.496, y: -1.498, z: 0}
+=======
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
+>>>>>>> da8e225d3332ac5f2492de5739c828468a84e4f0
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1071,8 +1073,8 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
+  m_UseAutoMass: 1
+  m_Mass: 0.2792567
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
