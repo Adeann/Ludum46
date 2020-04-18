@@ -10,9 +10,12 @@ public class AIBase : MonoBehaviour
     public Actor actor;
     // Start is called before the first frame update
     public float maxPatrolDistance = 3f;
+    public float vision = 3f;
+    private bool foundEnemy = false;
 
     void Start()
     {
+        playerLayer = LayerMask.NameToLayer("Player");
         this.actor = gameObject.GetComponent<Actor>();
         SetState(AIStates.Patrol);
         EnterState(state);
@@ -23,11 +26,16 @@ public class AIBase : MonoBehaviour
 
     void Update()
     {
-        if (IsSeeingPlayer()[0].transform != null || IsSeeingPlayer()[1].transform != null)
+        if (foundEnemy)
         {
             SetState(AIStates.Follow);
             EnterState(state);
         }
+        // if (IsSeeingPlayer()[0].transform != null || IsSeeingPlayer()[1].transform != null)
+        // {
+        //     SetState(AIStates.Follow);
+        //     EnterState(state);
+        // }
     }
 
     public void EnterState(AIStates stateEntered)
@@ -61,9 +69,33 @@ public class AIBase : MonoBehaviour
         }
     }
 
-    public bool IsSeeingEnemy()
+    public GameObject IsSeeingEnemy()
     {
-        return false;
+        // Ray2D ray = new Ray2D(transform.position, Vector2.right * this.transform.localScale.x);
+        Debug.DrawRay(transform.position, Vector2.right * this.transform.localScale.x * vision, Color.blue, 0f);
+        // right
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right, vision * this.transform.localScale.x);
+
+        if (hit.collider != null)
+        {
+            // Faction faction = hit.collider.gameObject.GetComponent<Actor>().faction;
+            // bool isAlly = actor.faction.isAlly(hit.collider.gameObject.GetComponent<Actor>().faction);
+            // Debug.Log(string.Format("Actor faction {0} isAlly of {1}: {2}", actor.faction.Name, faction.Name, isAlly));
+            // if the collider object is 
+            Actor collided = hit.collider.gameObject.GetComponent<Actor>();
+            if (collided != null)
+            {
+                if (!actor.faction.isAlly(collided.faction))
+                {
+                    foundEnemy = true;
+                    return hit.collider.gameObject;
+                } else {
+                    foundEnemy = false;
+                }
+            }
+        }
+
+        return null;
     }
 
     IEnumerator Idle()
@@ -74,7 +106,6 @@ public class AIBase : MonoBehaviour
 
     IEnumerator Patrol()
     {
-        int i = 0;
         Vector2 initialPos = this.transform.position;
         Vector2 initialLook = (Mathf.Sign(Random.Range(-1, 1)) * Vector2.right);
         Vector2 looking = initialLook;
@@ -87,9 +118,6 @@ public class AIBase : MonoBehaviour
             // look before us on the ground to see if there's something to walk on
             RaycastHit2D groundHit = Physics2D.Raycast(transform.position, groundVect, 1.0f, 256);
             RaycastHit2D wallHit = Physics2D.Raycast(transform.position, looking, 1.0f, 256);
-            // Debug.DrawRay(transform.position, looking, Color.red, 1f);
-            // Debug.DrawRay(transform.position, groundVect, Color.green, 1f);
-            // Debug.Log("Patrolling");
 
             if (groundHit.collider != null && wallHit.collider == null)
             {
@@ -107,20 +135,25 @@ public class AIBase : MonoBehaviour
             yield return null;
 
         }
+    }
 
-
-        yield return null;
-        
-        // while(true)
+    IEnumerator Follow()
+    {
+        // if (IsSeeingPlayer()[0].transform != null || IsSeeingPlayer()[1].transform != null)
         // {
-        //     this.SetPathPoint(patrolPositions[i]);
+        //     RaycastHit2D[] rs = IsSeeingPlayer();
+        //     if (rs[0].transform != null) 
+        //         this.SetPathPoint(rs[0].transform.position);
+        //     else
+        //         this.SetPathPoint(rs[1].transform.position);
 
-        //     while((this.transform.position - destination).sqrMagnitude > 2f)
+        //     while ((this.transform.position - destination).sqrMagnitude > 2f)
         //     {
-        //         if (patrolPositions[i].x < transform.position.x)
+        //         if (destination.x < transform.position.x)
         //         {
         //             this.transform.localScale = new Vector3(-1, 1, 1);
-        //         } else
+        //         }
+        //         else
         //         {
         //             this.transform.localScale = new Vector3(1, 1, 1);
         //         }
@@ -128,49 +161,7 @@ public class AIBase : MonoBehaviour
         //         actor.MovePlayer(this.transform.localScale.x);
         //         yield return null;
         //     }
-
-        //     if (i == patrolPositions.Count - 1)           
-        //         i = 0;
-        //     else 
-        //         ++i;
-
-        //     if (patrolPositions[i].x < transform.position.x)
-        //     {
-        //         this.transform.localScale = new Vector3(-1, 1, 1);
-        //     }
-        //     else
-        //     {
-        //         this.transform.localScale = new Vector3(1, 1, 1);
-        //     }
-        //     yield return new WaitForSeconds(1f);           
-        // }       
-    }
-
-    IEnumerator Follow()
-    {
-        if (IsSeeingPlayer()[0].transform != null || IsSeeingPlayer()[1].transform != null)
-        {
-            RaycastHit2D[] rs = IsSeeingPlayer();
-            if (rs[0].transform != null) 
-                this.SetPathPoint(rs[0].transform.position);
-            else
-                this.SetPathPoint(rs[1].transform.position);
-
-            while ((this.transform.position - destination).sqrMagnitude > 2f)
-            {
-                if (destination.x < transform.position.x)
-                {
-                    this.transform.localScale = new Vector3(-1, 1, 1);
-                }
-                else
-                {
-                    this.transform.localScale = new Vector3(1, 1, 1);
-                }
-                Debug.Log("PATROLLING");
-                actor.MovePlayer(this.transform.localScale.x);
-                yield return null;
-            }
-        }
+        // }
         
         yield return null;
     }

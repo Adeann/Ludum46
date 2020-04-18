@@ -7,12 +7,14 @@ public class PlayerController : Actor
     // Start is called before the first frame update
     //private Actor actor;
 
-    void Start()
+    new void Start()
     {
         // this.actor = gameObject.GetComponent<Actor>();    
         base.Start();
 
         InitAttacks();
+
+        this.faction = Factions.Player;
     }
 
     void Update()
@@ -41,7 +43,7 @@ public class PlayerController : Actor
 
     }
 
-    public void FixedUpdate()
+    new public void FixedUpdate()
     {
         base.FixedUpdate();
 

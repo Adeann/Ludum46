@@ -38,6 +38,8 @@ public class Actor : MonoBehaviour
         fallMult = 2.5f;
         lowJumpMult = 2f;
         rb.drag = 2f;
+
+        this.faction = Factions.Neutral;
     }
 
     private void Update()

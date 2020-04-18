@@ -6,7 +6,7 @@ public class Hunter : Actor
 {
     // Start is called before the first frame update
     public AIBase AI;
-    void Start()
+    new void Start()
     {
         base.Start();
         this.primaryAttack = new Attack
@@ -19,10 +19,7 @@ public class Hunter : Actor
         );
         
         maxSpeed = 12f;
-        hspeed = 1f;
-        yForce = 250;
-        fallMult = 2.5f;
-        lowJumpMult = 2f;
+        hspeed = .1f;
         this.faction = Factions.Parasite;
 
         this.secondaryAttack = new Attack
