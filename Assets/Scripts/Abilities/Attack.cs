@@ -55,14 +55,18 @@ public class Attack
                 go_sr.sprite = this.Projectile;
                 go_sr.sortingOrder = 1;
 
-                go.transform.localScale = parent.GetComponent<Transform>().localScale;
-                go.transform.position = parent.transform.position;
+                go.transform.localScale = parent.transform.localScale;
+                go.transform.position = new Vector3(parent.transform.position.x + (0.4f * go.transform.localScale.x), parent.transform.position.y, parent.transform.position.z);
 
                 Projectiles proj = go.AddComponent<Projectiles>();
                 proj.range = this.range;
-                go.AddComponent<Rigidbody2D>();
-                go.GetComponent<Rigidbody2D>().gravityScale = 0f;
-                go.GetComponent<Rigidbody2D>().AddForce((Vector2.right * go.transform.localScale.x) * 20f, ForceMode2D.Impulse);
+                proj.damage = this.damage;
+
+                CapsuleCollider2D c = go.AddComponent<CapsuleCollider2D>();
+
+                Rigidbody2D rb = go.AddComponent<Rigidbody2D>();
+                rb.gravityScale = 0f;
+                rb.AddForce((Vector2.right * go.transform.localScale.x) * 20f, ForceMode2D.Impulse);
             }
         }
     }

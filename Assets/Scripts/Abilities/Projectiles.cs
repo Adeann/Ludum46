@@ -7,6 +7,7 @@ public class Projectiles : MonoBehaviour
     Vector3 startPos;
     private float distanceTraveled;
     public float range;
+    public float damage;
     private void Awake()
     {
         startPos = this.gameObject.transform.position;
