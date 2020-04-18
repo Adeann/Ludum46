@@ -17,6 +17,12 @@ public class Actor : MonoBehaviour
 
     public float fallMult = 2.5f;
     public float lowJumpMult = 2f;
+
+    private float maxHealth;
+    public float health;
+    private float maxArmor;
+    public float armor;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -47,7 +53,19 @@ public class Actor : MonoBehaviour
         }
     }
 
+    #region Health and Armor Changes
 
+    public void UpdateHealth(int change)
+    {
+        this.health = Mathf.Clamp(health + change, 0f, maxHealth);
+    }
+
+    public void UpdateArmor(int change)
+    {
+
+    }
+
+    #endregion
 
     #region Movement Abilities
     public void Jump()

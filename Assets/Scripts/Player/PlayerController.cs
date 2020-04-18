@@ -9,8 +9,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        this.actor = gameObject.GetComponent<Actor>();
-        
+        this.actor = gameObject.GetComponent<Actor>();        
     }
 
     void Update()
