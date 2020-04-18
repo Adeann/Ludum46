@@ -5,31 +5,10 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     // Start is called before the first frame update
-    Rigidbody2D rb;
-    public float maxSpeed;
-
-    public float hspeed;
-    public Vector2 vel;
-
-
-    public bool isGrounded = false;
-    public float yForce;
-
-    public float fallMult = 2.5f;
-    public float lowJumpMult = 2f;
     private Actor actor;
 
     void Start()
     {
-        rb = this.GetComponent<Rigidbody2D>();
-        maxSpeed = 12f;
-        hspeed = 5f;
-        yForce = 250;
-        fallMult = 2.5f;
-        lowJumpMult = 2f;
-
-        rb.drag = 2f;
-
         this.actor = gameObject.GetComponent<Actor>();
         
     }
@@ -38,22 +17,15 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetAxis("Horizontal") != 0)
         {
-            rb.velocity = new Vector2(0f, rb.velocity.y);
+            actor.rb.velocity = new Vector2(0f, actor.rb.velocity.y);
         }
 
         if (Input.GetButtonDown("Jump"))
         {
-            Jump();
+            actor.Jump();
         }
 
-        if (rb.velocity.y < 0)
-        {
-            rb.velocity += Vector2.up * Physics.gravity.y * (fallMult - 1) * Time.deltaTime;
-
-        } else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))
-        {
-            rb.velocity += Vector2.up * Physics.gravity.y * (lowJumpMult - 1) * Time.deltaTime;
-        }
+        actor.JumpModifier();
 
     }
 
@@ -61,37 +33,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetAxis("Horizontal") != 0)
         {
-            MovePlayer();
-        }
-    }
-
-    void Jump()
-    {
-        if (actor.isGrounded)
-        {
-            rb.AddForce(Vector2.up * yForce);
-            isGrounded = false;
-        }
-    }
-
-    void MovePlayer()
-    {
-        rb.AddForce((Vector2.right * hspeed) * Input.GetAxis("Horizontal"), ForceMode2D.Impulse);             
-
-        if (rb.velocity.x > maxSpeed)
-        {
-            rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
-        } else if (rb.velocity.x < -maxSpeed)
-        {
-            rb.velocity = new Vector2(-maxSpeed, rb.velocity.y);
-        }
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Ground")
-        {
-            isGrounded = true;
+            actor.MovePlayer(Input.GetAxis("Horizontal"));
         }
     }
 }
