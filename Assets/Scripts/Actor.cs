@@ -64,17 +64,15 @@ public class Actor : MonoBehaviour
 
 
     #region Health and Armor Changes
-
     public void UpdateHealth(int change)
     {
-        this.health = Mathf.Clamp(health + change, 0f, maxHealth);
+        this.health = Mathf.Clamp(health - change, 0f, maxHealth);
     }
 
     public void UpdateArmor(int change)
     {
 
     }
-
     #endregion
 
     #region Movement Abilities
