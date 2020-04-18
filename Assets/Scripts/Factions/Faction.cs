@@ -6,9 +6,10 @@ public class Faction
     public string Name;
     private List<Faction> Allies;
 
-    public Faction()
+    public Faction(string name)
     {
         this.Allies = new List<Faction>();
+        this.Name = name;
     }
 
     public void AddAlly(Faction faction)
@@ -30,5 +31,20 @@ public class Faction
             return true;
         else
             return false;
+    }
+}
+
+public static class Factions
+{
+    public static Faction Neutral = new Faction("Neutral");
+    public static Faction Parasite = new Faction("Parasite");
+    public static Faction Whale = new Faction("Whale");
+    public static Faction Player = new Faction("Player");
+    public static Faction Pirate = new Faction("Pirate");
+
+    public static void DefaultInitialization()
+    {
+        Whale.AddAlly(Player);
+        Player.AddAlly(Whale);
     }
 }

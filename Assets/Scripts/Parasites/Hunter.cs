@@ -22,6 +22,7 @@ public class Hunter : Actor
         yForce = 250;
         fallMult = 2.5f;
         lowJumpMult = 2f;
+        this.faction = Factions.Parasite;
 
         this.secondaryAttack = new Attack
         (

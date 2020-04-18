@@ -25,6 +25,8 @@ public class Actor : MonoBehaviour
 
     public Attack primaryAttack;
     public Attack secondaryAttack;
+
+    public Faction faction;
     
     // Start is called before the first frame update
     public void Start()
