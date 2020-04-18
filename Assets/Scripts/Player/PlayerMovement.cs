@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float fallMult = 2.5f;
     public float lowJumpMult = 2f;
+    private Actor actor;
 
     void Start()
     {
@@ -28,6 +29,8 @@ public class PlayerMovement : MonoBehaviour
         lowJumpMult = 2f;
 
         rb.drag = 2f;
+
+        this.actor = gameObject.GetComponent<Actor>();
         
     }
 
@@ -64,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        if (isGrounded == true)
+        if (actor.isGrounded)
         {
             rb.AddForce(Vector2.up * yForce);
             isGrounded = false;
