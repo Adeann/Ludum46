@@ -9,9 +9,12 @@ public class CameraFollow : MonoBehaviour
     public float yOffset;
 
     Vector3 endPos;
+    Vector3 vel;
     public float timeToGoal;
 
     public float width, height;
+
+    public float smooth = 2.5f;
     void Start()
     {
         camTrans = GameObject.Find("Main Camera").transform;
@@ -22,7 +25,7 @@ public class CameraFollow : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (CheckBounds())
         {
@@ -34,8 +37,10 @@ public class CameraFollow : MonoBehaviour
     {
         endPos = new Vector3(this.transform.position.x, this.transform.position.y + yOffset, camTrans.position.z);
 
+        //smooth = 1.0f - Mathf.Pow(0.5f, Time.deltaTime * timeToGoal);
 
-        camTrans.position = Vector3.Lerp(camTrans.position, endPos, timeToGoal * Time.deltaTime);
+        //amTrans.position = Vector3.SmoothDamp(camTrans.position, endPos, ref vel, smooth);
+        camTrans.position = Vector3.Lerp(camTrans.position, endPos, 0.035f);
     }
 
     bool CheckBounds()
