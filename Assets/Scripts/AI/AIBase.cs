@@ -139,6 +139,7 @@ public class AIBase : MonoBehaviour
 
     IEnumerator Follow()
     {
+        // while (IsSeeingEnemy())
         // if (IsSeeingPlayer()[0].transform != null || IsSeeingPlayer()[1].transform != null)
         // {
         //     RaycastHit2D[] rs = IsSeeingPlayer();
