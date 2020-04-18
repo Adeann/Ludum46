@@ -10,8 +10,9 @@ public class AIBase : MonoBehaviour
     public Actor actor;
     // Start is called before the first frame update
     public float maxPatrolDistance = 3f;
-    public float vision = 3f;
     private bool foundEnemy = false;
+    private GameObject lastSeenEnemy;
+    private float aiFollowRange = 1f;
 
     void Start()
     {
@@ -30,6 +31,12 @@ public class AIBase : MonoBehaviour
         {
             SetState(AIStates.Follow);
             EnterState(state);
+        } else {
+            if (state != AIStates.Patrol)
+            {
+                SetState(AIStates.Patrol);
+                EnterState(state);
+            }
         }
         // if (IsSeeingPlayer()[0].transform != null || IsSeeingPlayer()[1].transform != null)
         // {
@@ -72,9 +79,11 @@ public class AIBase : MonoBehaviour
     public GameObject IsSeeingEnemy()
     {
         // Ray2D ray = new Ray2D(transform.position, Vector2.right * this.transform.localScale.x);
-        Debug.DrawRay(transform.position, Vector2.right * this.transform.localScale.x * vision, Color.blue, 0f);
+        Debug.DrawRay(transform.position, Vector2.right * this.transform.localScale.x * actor.vision, Color.blue, 0f);
         // right
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right, vision * this.transform.localScale.x);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right, actor.vision * this.transform.localScale.x);
+        
+        foundEnemy = false;
 
         if (hit.collider != null)
         {
@@ -88,9 +97,8 @@ public class AIBase : MonoBehaviour
                 if (!actor.faction.isAlly(collided.faction))
                 {
                     foundEnemy = true;
+                    lastSeenEnemy = hit.collider.gameObject;
                     return hit.collider.gameObject;
-                } else {
-                    foundEnemy = false;
                 }
             }
         }
@@ -139,11 +147,31 @@ public class AIBase : MonoBehaviour
 
     IEnumerator Follow()
     {
-        // while (IsSeeingEnemy())
+        GameObject enemy = IsSeeingEnemy();
+        if (enemy == null && lastSeenEnemy != null)
+        {
+            // we don't see the enemy, but have seen the enemy
+            enemy = lastSeenEnemy;
+        }
+        Vector2 diff = transform.position - enemy.transform.position;
+        // Debug.Log(diff.sqrMagnitude);
+        // if we still have an enemy in our sights or the enemy is within aiFollowRange
+        if (foundEnemy || diff.sqrMagnitude < Mathf.Pow(aiFollowRange, 2))
+        {
+            // Debug.Log(string.Format("foundEnemy: {0}, sqrMagnitude: {1}, aiFollowRange^2: {2}", foundEnemy, diff.sqrMagnitude, Mathf.Pow(aiFollowRange, 2)));
+            // Debug.Log((transform.position - enemy.transform.position).sqrMagnitude);
+            while ((transform.position - enemy.transform.position).sqrMagnitude < (actor.vision * actor.vision))
+            {
+                diff = transform.position - enemy.transform.position;
+                // Debug.Log(string.Format("{0}, {1}", diff.x, diff.y));
+                Vector2 direction = new Vector2(-1 * Mathf.Clamp(diff.x, -1f, 1f), 0);
+                actor.MovePlayer(direction.x);
+                yield return null;
+            }
+        }
         // if (IsSeeingPlayer()[0].transform != null || IsSeeingPlayer()[1].transform != null)
         // {
-        //     RaycastHit2D[] rs = IsSeeingPlayer();
-        //     if (rs[0].transform != null) 
+        //     RaycastHit2D[] rs = IsSeeingPlayer();a
         //         this.SetPathPoint(rs[0].transform.position);
         //     else
         //         this.SetPathPoint(rs[1].transform.position);
