@@ -8,9 +8,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Rigidbody2D rb;
     [SerializeField] Transform trans;
 
-    public Vector2 speed; // speed[0] == move speed, speed[1] == jump speed
+    public float maxSpeed;
+
     public float hspeed;
-    public float vspeed;
     public Vector2 vel;
 
 
@@ -19,47 +19,51 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        hspeed = 1;
-        vspeed = 1;
-        speed = new Vector2(hspeed, vspeed);
+        hspeed = 50;
+        yForce = 200;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        vel = Vector2.zero;
-
-        Inputs();
-
-        if (isGrounded == false)
-            vel[1] = Physics2D.gravity.y;
-
-        rb.velocity = vel;
-    }
-
-    void Inputs()
-    {
-        if (Input.GetAxis("Horizontal") != 0)
+        if (Input.GetButtonDown("Jump"))
         {
-            vel = new Vector2(speed[0] * Input.GetAxis("Horizontal"), 0f);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space)) {
             Jump();
         }
     }
+    private void FixedUpdate()
+    {
+        if (Input.GetAxis("Horizontal") != 0)
+        {
+            MovePlayer();
+        }
+
+        //rb.velocity = vel;
+    }
+
 
     void Jump()
     {
-        if (isGrounded == false)
+        if (isGrounded == true)
         {
-            return;
+            rb.AddForce(Vector2.up * yForce);
+            isGrounded = false;
         }
-        isGrounded = false;
-        rb.AddForce(new Vector2(vel[0], yForce));
-        
     }
 
+    void MovePlayer()
+    {
+        rb.AddForce((Vector2.right * hspeed) * Input.GetAxis("Horizontal"));
+
+        if (rb.velocity.x > maxSpeed)
+        {
+            rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
+        } else if (rb.velocity.x < -maxSpeed)
+        {
+            rb.velocity = new Vector2(-maxSpeed, rb.velocity.y);
+        }
+    }
 
 
 
