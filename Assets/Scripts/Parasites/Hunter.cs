@@ -16,6 +16,13 @@ public class Hunter : Actor
             3f,
             1f
         );
+        
+        maxSpeed = 12f;
+        hspeed = 1f;
+        yForce = 250;
+        fallMult = 2.5f;
+        lowJumpMult = 2f;
+
         this.secondaryAttack = new Attack
         (
             Attack.AttackType.ProjectileAttack,

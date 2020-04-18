@@ -17,7 +17,7 @@ public class AIBase : MonoBehaviour
         SetState(AIStates.Patrol);
         EnterState(state);
 
-        StartCoroutine("WaitSomeSecs");
+        // StartCoroutine("WaitSomeSecs");
 
     }
 
@@ -87,16 +87,25 @@ public class AIBase : MonoBehaviour
             // look before us on the ground to see if there's something to walk on
             RaycastHit2D groundHit = Physics2D.Raycast(transform.position, groundVect, 1.0f, 256);
             RaycastHit2D wallHit = Physics2D.Raycast(transform.position, looking, 1.0f, 256);
+            // Debug.DrawRay(transform.position, looking, Color.red, 1f);
+            // Debug.DrawRay(transform.position, groundVect, Color.green, 1f);
+            // Debug.Log("Patrolling");
 
-            if (groundHit ^ wallHit)
+            if (groundHit.collider != null && wallHit.collider == null)
             {
-                while(((Vector2)this.transform.position - looking).sqrMagnitude > 2f)
-                {
-                    actor.MovePlayer(looking.x);
-                    yield return null;
-                }
+                // Debug.Log("moving player");
+                actor.MovePlayer(looking.x);
+                // Debug.Log("done player");
+                yield return null;
+            } else if (wallHit.collider != null || groundHit.collider == null)
+            {
+                // change direction
+                looking = new Vector2(looking.x * -1, 0);
             }
-            yield return new WaitForSeconds(1f);
+            // yield return new WaitForSeconds(1f);
+            // Debug.Log("Patrolling stopping");
+            yield return null;
+
         }
 
 
