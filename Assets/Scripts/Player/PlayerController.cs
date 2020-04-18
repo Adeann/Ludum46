@@ -66,5 +66,15 @@ public class PlayerController : Actor
             10f
         );
         this.primaryAttack.Projectile = Resources.Load<Sprite>("Sprites/Projectiles/spine");
+
+        this.secondaryAttack = new Attack
+        (
+            this.gameObject,
+            Attack.AttackType.SpreadAttack,
+            -2f,
+            1f,
+            10f
+        );
+        this.secondaryAttack.Projectile = Resources.Load<Sprite>("Sprites/Projectiles/healycloud");
     }
 }
