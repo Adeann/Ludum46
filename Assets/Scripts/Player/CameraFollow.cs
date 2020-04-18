@@ -37,9 +37,6 @@ public class CameraFollow : MonoBehaviour
     {
         endPos = new Vector3(this.transform.position.x, this.transform.position.y + yOffset, camTrans.position.z);
 
-        //smooth = 1.0f - Mathf.Pow(0.5f, Time.deltaTime * timeToGoal);
-
-        //amTrans.position = Vector3.SmoothDamp(camTrans.position, endPos, ref vel, smooth);
         camTrans.position = Vector3.Lerp(camTrans.position, endPos, 0.035f);
     }
 

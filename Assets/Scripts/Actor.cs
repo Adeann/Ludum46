@@ -37,7 +37,6 @@ public class Actor : MonoBehaviour
         yForce = 250;
         fallMult = 2.5f;
         lowJumpMult = 2f;
-
         rb.drag = 2f;
     }
 
@@ -46,17 +45,19 @@ public class Actor : MonoBehaviour
         
     }
 
-    void FixedUpdate()
+    public void FixedUpdate()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up, 1.0f, wallLayer);
 
         if (hit.collider != null)
         {
-            isGrounded = true;
+            this.isGrounded = true;
         } else {
-            isGrounded = false;
+            this.isGrounded = false;
         }
     }
+
+
 
     #region Health and Armor Changes
 
@@ -75,10 +76,10 @@ public class Actor : MonoBehaviour
     #region Movement Abilities
     public void Jump()
     {
-        if (isGrounded)
+        if (this.isGrounded)
         {
             rb.AddForce(Vector2.up * yForce);
-            isGrounded = false;
+            this.isGrounded = false;
         }
     }
 
@@ -98,6 +99,13 @@ public class Actor : MonoBehaviour
     public void MovePlayer(float inV)
     {
         rb.AddForce((Vector2.right * hspeed) * inV, ForceMode2D.Impulse);
+        if (this.transform.localScale.x != 1 && inV > 0)
+        {
+            this.transform.localScale = new Vector3(1, 1, 1);
+        } else if(this.transform.localScale.x != -1 && inV < 0)
+        {
+            this.transform.localScale = new Vector3(-1, 1, 1);
+        }
 
         if (rb.velocity.x > maxSpeed)
         {
