@@ -27,7 +27,7 @@ public class Actor : MonoBehaviour
     public Attack secondaryAttack;
     
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         rb = this.GetComponent<Rigidbody2D>();
         maxSpeed = 12f;

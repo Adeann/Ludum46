@@ -8,6 +8,7 @@ public class Hunter : Actor
     public AIBase AI;
     void Start()
     {
+        base.Start();
         this.primaryAttack = new Attack
         (
             Attack.AttackType.MeleeAttack,

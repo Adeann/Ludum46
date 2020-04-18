@@ -9,7 +9,7 @@ public class AIBase : MonoBehaviour
     public Vector3 destination;
     public Actor actor;
     // Start is called before the first frame update
-    public float maxPatrolDistance;
+    public float maxPatrolDistance = 3f;
 
     void Start()
     {
@@ -61,6 +61,10 @@ public class AIBase : MonoBehaviour
         }
     }
 
+    public bool IsSeeingEnemy()
+    {
+        return false;
+    }
 
     IEnumerator Idle()
     {
@@ -71,41 +75,66 @@ public class AIBase : MonoBehaviour
     IEnumerator Patrol()
     {
         int i = 0;
-        
-        
-        while(true)
+        Vector2 initialPos = this.transform.position;
+        Vector2 initialLook = (Mathf.Sign(Random.Range(-1, 1)) * Vector2.right);
+        Vector2 looking = initialLook;
+
+
+        while(!IsSeeingEnemy())
         {
-            this.SetPathPoint(patrolPositions[i]);
+            // first check if we are at a gap, or hitting a wall
+            Vector2 groundVect = looking - Vector2.up;
+            // look before us on the ground to see if there's something to walk on
+            RaycastHit2D groundHit = Physics2D.Raycast(transform.position, groundVect, 1.0f, 256);
+            RaycastHit2D wallHit = Physics2D.Raycast(transform.position, looking, 1.0f, 256);
 
-            while((this.transform.position - destination).sqrMagnitude > 2f)
+            if (groundHit ^ wallHit)
             {
-                if (patrolPositions[i].x < transform.position.x)
+                while(((Vector2)this.transform.position - looking).sqrMagnitude > 2f)
                 {
-                    this.transform.localScale = new Vector3(-1, 1, 1);
-                } else
-                {
-                    this.transform.localScale = new Vector3(1, 1, 1);
+                    actor.MovePlayer(looking.x);
+                    yield return null;
                 }
-                Debug.Log("PATROLLING");
-                actor.MovePlayer(this.transform.localScale.x);
-                yield return null;
             }
+            yield return new WaitForSeconds(1f);
+        }
 
-            if (i == patrolPositions.Count - 1)           
-                i = 0;
-            else 
-                ++i;
 
-            if (patrolPositions[i].x < transform.position.x)
-            {
-                this.transform.localScale = new Vector3(-1, 1, 1);
-            }
-            else
-            {
-                this.transform.localScale = new Vector3(1, 1, 1);
-            }
-            yield return new WaitForSeconds(1f);           
-        }       
+        yield return null;
+        
+        // while(true)
+        // {
+        //     this.SetPathPoint(patrolPositions[i]);
+
+        //     while((this.transform.position - destination).sqrMagnitude > 2f)
+        //     {
+        //         if (patrolPositions[i].x < transform.position.x)
+        //         {
+        //             this.transform.localScale = new Vector3(-1, 1, 1);
+        //         } else
+        //         {
+        //             this.transform.localScale = new Vector3(1, 1, 1);
+        //         }
+        //         Debug.Log("PATROLLING");
+        //         actor.MovePlayer(this.transform.localScale.x);
+        //         yield return null;
+        //     }
+
+        //     if (i == patrolPositions.Count - 1)           
+        //         i = 0;
+        //     else 
+        //         ++i;
+
+        //     if (patrolPositions[i].x < transform.position.x)
+        //     {
+        //         this.transform.localScale = new Vector3(-1, 1, 1);
+        //     }
+        //     else
+        //     {
+        //         this.transform.localScale = new Vector3(1, 1, 1);
+        //     }
+        //     yield return new WaitForSeconds(1f);           
+        // }       
     }
 
     IEnumerator Follow()
