@@ -106,5 +106,10 @@ public class Actor : MonoBehaviour
             rb.velocity = new Vector2(-maxSpeed, rb.velocity.y);
         }
     }
+
+    public void StopMovement()
+    {
+        rb.velocity = new Vector2(0f, rb.velocity.y);
+    }
     #endregion
 }
