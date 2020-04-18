@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
             Jump();
         }
     }
+
     private void FixedUpdate()
     {
         if (Input.GetAxis("Horizontal") != 0)
@@ -41,7 +42,6 @@ public class PlayerMovement : MonoBehaviour
 
         //rb.velocity = vel;
     }
-
 
     void Jump()
     {
@@ -65,11 +65,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
-
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("COLLIDED");
         if (collision.gameObject.tag == "Ground")
         {
             isGrounded = true;
