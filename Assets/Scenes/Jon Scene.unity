@@ -177,6 +177,9 @@ GameObject:
   - component: {fileID: 661407158}
   - component: {fileID: 661407159}
   - component: {fileID: 661407157}
+  - component: {fileID: 661407161}
+  - component: {fileID: 661407162}
+  - component: {fileID: 661407163}
   m_Layer: 0
   m_Name: alien
   m_TagString: Untagged
@@ -204,7 +207,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &661407158
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -282,12 +285,63 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 661407156}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.325, y: -2.632, z: -4.802323}
+  m_LocalPosition: {x: -4.46, y: 1.48, z: -4.802323}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &661407161
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 661407156}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0019651651, y: -0.025547504}
+  m_Size: {x: 0.79954886, y: 0.8545747}
+  m_Direction: 0
+--- !u!114 &661407162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 661407156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2936d0189bd37664cbc3aaf160604df8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGrounded: 0
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 256
+--- !u!114 &661407163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 661407156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78c66642190c34f4a8e97501269a788a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSpeed: 0
+  hspeed: 0
+  vel: {x: 0, y: 0}
+  isGrounded: 0
+  yForce: 0
+  fallMult: 2.5
+  lowJumpMult: 2
 --- !u!1 &1131587028
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,7 +437,7 @@ GameObject:
   - component: {fileID: 1548022418}
   - component: {fileID: 1548022417}
   - component: {fileID: 1548022419}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
