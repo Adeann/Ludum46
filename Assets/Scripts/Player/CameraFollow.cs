@@ -15,6 +15,10 @@ public class CameraFollow : MonoBehaviour
     void Start()
     {
         camTrans = GameObject.Find("Main Camera").transform;
+        yOffset = 1.8f;
+        timeToGoal = 2f;
+        width = 2f;
+        height = 2f;
     }
 
     // Update is called once per frame
@@ -29,6 +33,7 @@ public class CameraFollow : MonoBehaviour
     void MoveCamera()
     {
         endPos = new Vector3(this.transform.position.x, this.transform.position.y + yOffset, camTrans.position.z);
+
 
         camTrans.position = Vector3.Lerp(camTrans.position, endPos, timeToGoal * Time.deltaTime);
     }

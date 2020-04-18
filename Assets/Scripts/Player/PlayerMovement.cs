@@ -21,6 +21,14 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = this.GetComponent<Rigidbody2D>();
+        maxSpeed = 12f;
+        hspeed = 5f;
+        yForce = 250;
+        fallMult = 2.5f;
+        lowJumpMult = 2f;
+
+        rb.drag = 2f;
+        
     }
 
     void Update()
