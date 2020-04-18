@@ -2,37 +2,65 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Actor
 {
     // Start is called before the first frame update
-    private Actor actor;
+    //private Actor actor;
 
     void Start()
     {
-        this.actor = gameObject.GetComponent<Actor>();        
+        // this.actor = gameObject.GetComponent<Actor>();    
+        base.Start();
+
+        InitAttacks();
     }
 
     void Update()
     {
+        if (Input.GetButton("Fire1") && this.primaryAttack != null)
+        {
+            this.primaryAttack.UnModifiedAttack();
+        }
+        else if (Input.GetButton("Fire2") && this.secondaryAttack != null)
+        {
+            this.secondaryAttack.UnModifiedAttack();
+        }
+
         if (Input.GetAxis("Horizontal") != 0)
         {
-            actor.rb.velocity = new Vector2(0f, actor.rb.velocity.y);
+            rb.velocity = new Vector2(0f, rb.velocity.y);
         }
 
         if (Input.GetButtonDown("Jump"))
         {
-            actor.Jump();
+            Jump();
         }
 
-        actor.JumpModifier();
+        JumpModifier();
 
     }
 
-    private void FixedUpdate()
+    public void FixedUpdate()
     {
+        base.FixedUpdate();
+
         if (Input.GetAxis("Horizontal") != 0)
         {
-            actor.MovePlayer(Input.GetAxis("Horizontal"));
+            MovePlayer(Input.GetAxis("Horizontal"));
         }
+    }
+
+
+    private void InitAttacks()
+    {
+        this.primaryAttack = new Attack
+        (
+            this.gameObject,
+            Attack.AttackType.ProjectileAttack,
+            2f,
+            1f,
+            10f
+        );
+        this.primaryAttack.Projectile = Resources.Load<Sprite>("Sprites/Projectiles/spine");
     }
 }

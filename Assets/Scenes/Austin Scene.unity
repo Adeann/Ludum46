@@ -141,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &478250922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,7 +262,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 478250921}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.46, y: -2.24, z: 0}
+  m_LocalPosition: {x: -5.46, y: -2.31, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -283,6 +283,15 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 512
+  state: 0
+  destination: {x: 0, y: 0, z: 0}
+  actor: {fileID: 0}
+  maxPatrolDistance: 3
+  patrolPositions:
+  - {x: 1, y: -2, z: 0}
+  - {x: 5, y: -2, z: 0}
+  - {x: -3, y: -2, z: 0}
+  - {x: 4, y: -2, z: 0}
 --- !u!1 &791941738
 GameObject:
   m_ObjectHideFlags: 0
@@ -488,7 +497,6 @@ GameObject:
   - component: {fileID: 2031932578}
   - component: {fileID: 2031932577}
   - component: {fileID: 2031932582}
-  - component: {fileID: 2031932583}
   m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
@@ -508,6 +516,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78c66642190c34f4a8e97501269a788a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isGrounded: 0
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  rb: {fileID: 0}
+  maxSpeed: 0
+  hspeed: 0
+  vel: {x: 0, y: 0}
+  yForce: 0
+  fallMult: 2.5
+  lowJumpMult: 2
+  health: 0
+  armor: 0
 --- !u!70 &2031932578
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -626,28 +647,3 @@ MonoBehaviour:
   width: 2
   height: 2
   smooth: 2.5
---- !u!114 &2031932583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2031932576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2936d0189bd37664cbc3aaf160604df8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGrounded: 0
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  rb: {fileID: 2031932579}
-  maxSpeed: 0
-  hspeed: 0
-  vel: {x: 0, y: 0}
-  yForce: 0
-  fallMult: 2.5
-  lowJumpMult: 2
-  health: 0
-  armor: 0

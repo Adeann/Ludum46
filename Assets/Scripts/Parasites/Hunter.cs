@@ -11,6 +11,7 @@ public class Hunter : Actor
         base.Start();
         this.primaryAttack = new Attack
         (
+            this.gameObject,
             Attack.AttackType.MeleeAttack,
             10f,
             3f,
@@ -24,7 +25,7 @@ public class Hunter : Actor
         lowJumpMult = 2f;
 
         this.secondaryAttack = new Attack
-        (
+        (   this.gameObject,
             Attack.AttackType.ProjectileAttack,
             2f,
             1f,
