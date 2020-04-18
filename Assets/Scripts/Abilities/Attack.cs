@@ -17,8 +17,6 @@ public class Attack
     public float range;
     public Sprite Projectile;
     public AttackType attackType;
-
-    bool canFire = true;
     public Attack(
         GameObject parent,
         AttackType attackType,
@@ -46,8 +44,7 @@ public class Attack
 
     private void attack()
     {
-        if (canFire == true)
-        {
+
             if (attackType == AttackType.ProjectileAttack)
             {
                 GameObject go = new GameObject();
@@ -56,25 +53,30 @@ public class Attack
                 go_sr.sortingOrder = 1;
 
                 go.transform.localScale = parent.transform.localScale;
-                go.transform.position = new Vector3(parent.transform.position.x + (0.4f * go.transform.localScale.x), parent.transform.position.y, parent.transform.position.z);
+                go.transform.position = new Vector3(parent.transform.position.x + (0.8f * go.transform.localScale.x), parent.transform.position.y, parent.transform.position.z);
 
                 Projectiles proj = go.AddComponent<Projectiles>();
                 proj.range = this.range;
                 proj.damage = this.damage;
 
                 CapsuleCollider2D c = go.AddComponent<CapsuleCollider2D>();
+                c.size = new Vector2(.3f, .1f);
+                c.direction = CapsuleDirection2D.Horizontal;
 
                 Rigidbody2D rb = go.AddComponent<Rigidbody2D>();
-                rb.gravityScale = 0f;
+                rb.gravityScale = 0.1f;
                 rb.AddForce((Vector2.right * go.transform.localScale.x) * 20f, ForceMode2D.Impulse);
             }
-        }
     }
 
-    public IEnumerator InterFire(float rof)
+    public bool NextShotReady(float time)
     {
-        canFire = false;
-        yield return new WaitForSeconds(1f / rof);
-        canFire = true;
+        return Time.time > time;
     }
+
+    public float IncrementFireRateTime()
+    {
+        return Time.time + (1f / this.rof);
+    }
+
 }

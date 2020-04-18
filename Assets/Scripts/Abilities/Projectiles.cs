@@ -28,6 +28,14 @@ public class Projectiles : MonoBehaviour
         }
     }
 
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject != null)
+        {
+            DestroyObject();
+        }
+    }
+
     public void DestroyObject()
     {
         GameObject.Destroy(this.gameObject);
