@@ -103,6 +103,7 @@ public class Actor : MonoBehaviour
     public void MovePlayer(float inV)
     {
         rb.AddForce((Vector2.right * hspeed) * inV, ForceMode2D.Impulse);
+
         if (this.transform.localScale.x != 1 && inV > 0)
         {
             this.transform.localScale = new Vector3(1, 1, 1);

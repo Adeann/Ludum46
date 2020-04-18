@@ -6,7 +6,7 @@ public class PlayerController : Actor
 {
     // Start is called before the first frame update
     //private Actor actor;
-
+    float nextShotTime = 0f;
     new void Start()
     {
         // this.actor = gameObject.GetComponent<Actor>();    
@@ -19,16 +19,6 @@ public class PlayerController : Actor
 
     void Update()
     {
-        if (Input.GetButtonDown("Fire1") && this.primaryAttack != null)
-        {
-            this.primaryAttack.UnModifiedAttack();
-            StartCoroutine(this.primaryAttack.InterFire(this.primaryAttack.rof));
-        }
-        else if (Input.GetButton("Fire2") && this.secondaryAttack != null)
-        {
-            this.secondaryAttack.UnModifiedAttack();
-        }
-
         if (Input.GetAxis("Horizontal") != 0)
         {
             rb.velocity = new Vector2(0f, rb.velocity.y);
@@ -51,6 +41,17 @@ public class PlayerController : Actor
         {
             MovePlayer(Input.GetAxis("Horizontal"));
         }
+
+        if (Input.GetButton("Fire1") && this.primaryAttack.NextShotReady(nextShotTime))
+        {
+            this.primaryAttack.UnModifiedAttack();
+            nextShotTime = this.primaryAttack.IncrementFireRateTime();
+        }
+        else if (Input.GetButton("Fire2") && this.secondaryAttack.NextShotReady(nextShotTime))
+        {
+            this.secondaryAttack.UnModifiedAttack();
+            nextShotTime = this.secondaryAttack.IncrementFireRateTime();
+        }
     }
 
 
@@ -61,7 +62,7 @@ public class PlayerController : Actor
             this.gameObject,
             Attack.AttackType.ProjectileAttack,
             2f,
-            1f,
+            2f,
             10f
         );
         this.primaryAttack.Projectile = Resources.Load<Sprite>("Sprites/Projectiles/spine");
