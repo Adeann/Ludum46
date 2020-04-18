@@ -15,6 +15,9 @@ public class PlayerMovement : MonoBehaviour
     public bool isGrounded = false;
     public float yForce;
 
+    public float fallMult = 2.5f;
+    public float lowJumpMult = 2f;
+
     void Start()
     {
         rb = this.GetComponent<Rigidbody2D>();
@@ -22,10 +25,25 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetAxis("Horizontal") != 0)
+        {
+            rb.velocity = new Vector2(0f, rb.velocity.y);
+        }
+
         if (Input.GetButtonDown("Jump"))
         {
             Jump();
         }
+
+        if (rb.velocity.y < 0)
+        {
+            rb.velocity += Vector2.up * Physics.gravity.y * (fallMult - 1) * Time.deltaTime;
+
+        } else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))
+        {
+            rb.velocity += Vector2.up * Physics.gravity.y * (lowJumpMult - 1) * Time.deltaTime;
+        }
+
     }
 
     private void FixedUpdate()
@@ -47,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
 
     void MovePlayer()
     {
-        rb.AddForce((Vector2.right * hspeed) * Input.GetAxis("Horizontal"));
+        rb.AddForce((Vector2.right * hspeed) * Input.GetAxis("Horizontal"), ForceMode2D.Impulse);             
 
         if (rb.velocity.x > maxSpeed)
         {
