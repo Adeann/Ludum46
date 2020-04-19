@@ -48,6 +48,7 @@ public class Projectiles : MonoBehaviour
     {
         GameObject expl_s = Instantiate(Resources.Load<GameObject>("Prefabs/Effects/explosion_s"));
         expl_s.transform.position = transform.position;
+        expl_s.transform.Translate(0f, 0f, -1f);
     }
 
     public void DestroyObject()
