@@ -32,6 +32,7 @@ public class Actor : MonoBehaviour
     public Faction faction;
     GameObject hp_bar_max, hp_bar_curr;
     float hp_bar_max_len = 75f;
+    public Color32 gibColor = new Color32(255, 0, 0, 255);
 
     public Animator anim;
     
@@ -198,7 +199,7 @@ public class Actor : MonoBehaviour
             gib.transform.localScale = new Vector3(5f, 5f, 1f);
             SpriteRenderer sr = gib.AddComponent<SpriteRenderer>();
             sr.sprite = white;
-            sr.color = new Color32(255, 0, 0, 255);
+            sr.color = gibColor;
 
             Rigidbody2D rb = gib.AddComponent<Rigidbody2D>();
             CircleCollider2D cc = gib.AddComponent<CircleCollider2D>();

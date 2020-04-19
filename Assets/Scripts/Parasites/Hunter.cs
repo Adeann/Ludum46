@@ -13,14 +13,15 @@ public class Hunter : Actor
         (
             this.gameObject,
             Attack.AttackType.MeleeAttack,
-            10f,
-            3f,
-            1f
+            10f, // Damage
+            3f, // Rate of Fire
+            1f // Range
         );
         
         maxSpeed = 12f;
         hspeed = .1f;
         this.faction = Factions.Parasite;
+        this.gibColor = new Color32(0, 255, 0, 255);
 
         this.secondaryAttack = new Attack
         (   this.gameObject,
