@@ -5,6 +5,7 @@ using UnityEngine;
 public class AIBase : MonoBehaviour
 {
     public LayerMask playerLayer;
+    private LayerMask patrolLayer;
     public AIStates state;
     public Vector3 destination;
     public Actor actor;
@@ -12,14 +13,19 @@ public class AIBase : MonoBehaviour
     public float maxPatrolDistance = 3f;
     private bool foundEnemy = false;
     private GameObject lastSeenEnemy;
-    private float aiFollowRange = 1f;
+    private float aiFollowRange = 3f;
+    private float minAttackRange, maxAttackRange;
 
     void Start()
     {
         playerLayer = LayerMask.NameToLayer("Player");
+        patrolLayer = LayerMask.NameToLayer("Default") | LayerMask.NameToLayer("Player") | LayerMask.NameToLayer("Wall");
         this.actor = gameObject.GetComponent<Actor>();
         SetState(AIStates.Patrol);
         EnterState(state);
+
+        minAttackRange = Mathf.Min(actor.primaryAttack.range, actor.secondaryAttack.range);
+        maxAttackRange = Mathf.Max(actor.primaryAttack.range, actor.secondaryAttack.range);
 
         // StartCoroutine("WaitSomeSecs");
 
@@ -141,15 +147,15 @@ public class AIBase : MonoBehaviour
             Vector2 groundVect = looking - Vector2.up;
             // look before us on the ground to see if there's something to walk on
             RaycastHit2D groundHit = Physics2D.Raycast(transform.position, groundVect, 1.0f, 256);
-            RaycastHit2D wallHit = Physics2D.Raycast(transform.position, looking, 1.0f, 256);
+            RaycastHit2D obstacleHit = Physics2D.Raycast(transform.position, looking, 1.0f, patrolLayer);
 
-            if (groundHit.collider != null && wallHit.collider == null)
+            if (groundHit.collider != null && obstacleHit.collider == null)
             {
                 // Debug.Log("moving player");
                 actor.MovePlayer(looking.x);
                 // Debug.Log("done player");
                 yield return null;
-            } else if (wallHit.collider != null || groundHit.collider == null)
+            } else if (obstacleHit.collider != null || groundHit.collider == null)
             {
                 // change direction
                 looking = new Vector2(looking.x * -1, 0);
@@ -161,6 +167,25 @@ public class AIBase : MonoBehaviour
         }
     }
 
+    void TryAttack(GameObject target)
+    {
+        float range = (target.transform.position - transform.position).sqrMagnitude;
+
+        // check that there's a primary attack and we are in range
+        if (actor.primaryAttack != null)
+            if (Mathf.Pow(actor.primaryAttack.range, 2) >= range)
+            {
+                Debug.Log("Primary Attack");
+                actor.primaryAttack.ModifiedAttack();
+            }
+        
+        if (actor.secondaryAttack != null)
+            if (Mathf.Pow(actor.secondaryAttack.range, 2) >= range)
+            {
+                Debug.Log("Secondary Attack");
+                actor.secondaryAttack.ModifiedAttack();
+            }
+    }
     IEnumerator Follow()
     {
         GameObject enemy = IsSeeingEnemy();
@@ -168,6 +193,8 @@ public class AIBase : MonoBehaviour
         {
             // we don't see the enemy, but have seen the enemy
             enemy = lastSeenEnemy;
+        } else {
+            TryAttack(enemy);
         }
         Vector2 diff = transform.position - enemy.transform.position;
         // Debug.Log(diff.sqrMagnitude);

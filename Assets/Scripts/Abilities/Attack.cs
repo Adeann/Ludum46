@@ -35,7 +35,7 @@ public class Attack
 
     public void ModifiedAttack()
     {
-
+        attack();
     }
 
     public void UnModifiedAttack()
