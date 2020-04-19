@@ -24,6 +24,8 @@ public class Actor : MonoBehaviour
     public float armor;
     public float vision;
 
+    public bool hasDied = false;
+
     public Attack primaryAttack;
     public Attack secondaryAttack;
 
@@ -49,7 +51,7 @@ public class Actor : MonoBehaviour
 
         maxSpeed = 12f;
         hspeed = 5f;
-        yForce = 250;
+        yForce = 500f;
         fallMult = 2.5f;
         lowJumpMult = 2f;
         maxArmor = 1f;
@@ -110,6 +112,8 @@ public class Actor : MonoBehaviour
     #region Health and Armor Changes
     public void UpdateHealth(float change)
     {
+        if (hasDied)
+            return;
         
         this.health = Mathf.Clamp(health - (change - (armor * change)), 0f, maxHealth);
         float pct = this.health / Mathf.Max(this.maxHealth, 1f);
@@ -152,29 +156,36 @@ public class Actor : MonoBehaviour
 
     public void MovePlayer(float inV)
     {
-        rb.AddForce((Vector2.right * hspeed) * inV, ForceMode2D.Impulse);
+        if (!hasDied)
+        {
+            rb.AddForce((Vector2.right * hspeed) * inV, ForceMode2D.Impulse);
 
-        if (this.transform.localScale.x != 1 && inV > 0)
-        {
-            this.transform.localScale = new Vector3(1, 1, 1);
-        } else if(this.transform.localScale.x != -1 && inV < 0)
-        {
-            this.transform.localScale = new Vector3(-1, 1, 1);
-        }
+            if (this.transform.localScale.x != 1 && inV > 0)
+            {
+                this.transform.localScale = new Vector3(1, 1, 1);
+            } else if(this.transform.localScale.x != -1 && inV < 0)
+            {
+                this.transform.localScale = new Vector3(-1, 1, 1);
+            }
 
-        if (rb.velocity.x > maxSpeed)
-        {
-            rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
-        }
-        else if (rb.velocity.x < -maxSpeed)
-        {
-            rb.velocity = new Vector2(-maxSpeed, rb.velocity.y);
+            if (rb.velocity.x > maxSpeed)
+            {
+                rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
+            }
+            else if (rb.velocity.x < -maxSpeed)
+            {
+                rb.velocity = new Vector2(-maxSpeed, rb.velocity.y);
+            }
         }
     }
 
     IEnumerator Die()
     {
-
+        hasDied = true;
+        Destroy(this.gameObject.GetComponent<Collider2D>());
+        // Destroy(this.gameObject.GetComponent<Rigidbody2D>());
+        Destroy(hp_bar_max);
+        Destroy(hp_bar_curr);
         Sprite white = Resources.Load<Sprite>("Sprites/misc/white");
         GameObject[] gibs = new GameObject[100];
         this.gameObject.GetComponent<SpriteRenderer>().sprite = null;
@@ -182,6 +193,7 @@ public class Actor : MonoBehaviour
         for (int i = 0; i < gibs.Length; i++)
         {
             GameObject gib = new GameObject(string.Format("gib_{0}", i));
+            gibs[i] = gib;
             gib.transform.position = transform.position;
             gib.transform.localScale = new Vector3(5f, 5f, 1f);
             SpriteRenderer sr = gib.AddComponent<SpriteRenderer>();
@@ -194,14 +206,15 @@ public class Actor : MonoBehaviour
             rb.AddForce(new Vector2(Random.Range(-20f, 20f), Random.Range(-5f, 5f)), ForceMode2D.Impulse);
         }
 
-        Destroy(this.gameObject);
 
         yield return new WaitForSeconds(10f);
 
-        foreach(GameObject gib in gibs)
+        for (int i = 0; i < gibs.Length; i++)
         {
-            Destroy(gib);
+            Destroy(gibs[i]);
         }
+        
+        Destroy(this.gameObject);
 
     }
 
