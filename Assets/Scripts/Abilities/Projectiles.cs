@@ -8,6 +8,7 @@ public class Projectiles : MonoBehaviour
     private float distanceTraveled;
     public float range;
     public float damage;
+    public bool explodes = true;
     private void Awake()
     {
         startPos = this.gameObject.transform.position;
@@ -32,8 +33,16 @@ public class Projectiles : MonoBehaviour
     {
         if (collision.gameObject != null)
         {
+            if (explodes)
+                Explosion();
             DestroyObject();
         }
+    }
+
+    void Explosion()
+    {
+        GameObject expl_s = Instantiate(Resources.Load<GameObject>("Prefabs/Effects/explosion_s"));
+        expl_s.transform.position = transform.position;
     }
 
     public void DestroyObject()
