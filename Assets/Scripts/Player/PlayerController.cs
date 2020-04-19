@@ -61,9 +61,9 @@ public class PlayerController : Actor
         (
             this.gameObject,
             Attack.AttackType.ProjectileAttack,
-            2f,
-            2f,
-            10f
+            30f, //attack
+            2f, // rate of fire
+            10f // range
         );
         this.primaryAttack.Projectile = Resources.Load<Sprite>("Sprites/Projectiles/spine");
 

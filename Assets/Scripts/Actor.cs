@@ -28,7 +28,8 @@ public class Actor : MonoBehaviour
     public Attack secondaryAttack;
 
     public Faction faction;
-    GameObject hp_bar;
+    GameObject hp_bar_max, hp_bar_curr;
+    float hp_bar_max_len = 75f;
     
     // Start is called before the first frame update
     public void Start()
@@ -58,13 +59,26 @@ public class Actor : MonoBehaviour
     
     void SetupHPBars()
     {
-        this.hp_bar = new GameObject("hp_bar_max");
-        this.hp_bar.transform.SetParent(transform);
-        this.hp_bar.transform.localPosition = new Vector3(0f, 0.75f, 0f);
-        this.hp_bar.transform.localScale = new Vector3(75f, 15f, 1f);
-        SpriteRenderer sr = this.hp_bar.AddComponent<SpriteRenderer>();
-        sr.sprite = Resources.Load<Sprite>("Sprites/misc/white");
-        sr.color = new Color(136f,0f,21f,255f);
+        Sprite white = Resources.Load<Sprite>("Sprites/misc/white");
+
+        this.hp_bar_max = new GameObject("hp_bar_max");
+        // RectTransform rect1 = hp_bar_max.AddComponent<RectTransform>();
+        this.hp_bar_max.transform.SetParent(transform);
+        this.hp_bar_max.transform.localPosition = new Vector3(0f, 0.75f, -1f);
+        this.hp_bar_max.transform.localScale = new Vector3(hp_bar_max_len, 15f, 1f);
+        SpriteRenderer sr = this.hp_bar_max.AddComponent<SpriteRenderer>();
+        sr.sprite = white;
+        sr.color = new Color32(136, 0, 21, 255);
+
+        this.hp_bar_curr = new GameObject("hp_bar_curr");
+        // RectTransform rect2 = hp_bar_curr.AddComponent<RectTransform>();
+        this.hp_bar_curr.transform.SetParent(transform);
+        this.hp_bar_curr.transform.localPosition = new Vector3(0f, 0.75f, -2f);
+        this.hp_bar_curr.transform.localScale = new Vector3(hp_bar_max_len, 15f, 1f);
+
+        SpriteRenderer sr2 = this.hp_bar_curr.AddComponent<SpriteRenderer>();
+        sr2.sprite = white;
+        sr2.color = new Color32(255, 0, 0, 255);
     }
 
     private void Update()
@@ -91,6 +105,13 @@ public class Actor : MonoBehaviour
     {
         
         this.health = Mathf.Clamp(health - (change - (armor * change)), 0f, maxHealth);
+        float pct = this.health / Mathf.Max(this.maxHealth, 1f);
+        this.hp_bar_curr.transform.localScale = new Vector3(pct * this.hp_bar_max_len, 15f, 1);
+
+        if (this.health <= 0.01)
+        {
+            StartCoroutine("Die");
+        }
     }
 
     public void UpdateArmor(float change)
@@ -142,6 +163,39 @@ public class Actor : MonoBehaviour
         {
             rb.velocity = new Vector2(-maxSpeed, rb.velocity.y);
         }
+    }
+
+    IEnumerator Die()
+    {
+
+        Sprite white = Resources.Load<Sprite>("Sprites/misc/white");
+        GameObject[] gibs = new GameObject[100];
+        this.gameObject.GetComponent<SpriteRenderer>().sprite = null;
+
+        for (int i = 0; i < gibs.Length; i++)
+        {
+            GameObject gib = new GameObject(string.Format("gib_{0}", i));
+            gib.transform.position = transform.position;
+            gib.transform.localScale = new Vector3(5f, 5f, 1f);
+            SpriteRenderer sr = gib.AddComponent<SpriteRenderer>();
+            sr.sprite = white;
+            sr.color = new Color32(255, 0, 0, 255);
+
+            Rigidbody2D rb = gib.AddComponent<Rigidbody2D>();
+            CircleCollider2D cc = gib.AddComponent<CircleCollider2D>();
+
+            rb.AddForce(new Vector2(Random.Range(-20f, 20f), Random.Range(-5f, 5f)), ForceMode2D.Impulse);
+        }
+
+        Destroy(this.gameObject);
+
+        yield return new WaitForSeconds(10f);
+
+        foreach(GameObject gib in gibs)
+        {
+            Destroy(gib);
+        }
+
     }
 
     public void StopMovement()

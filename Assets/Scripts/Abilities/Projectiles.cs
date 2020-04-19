@@ -35,6 +35,11 @@ public class Projectiles : MonoBehaviour
         {
             if (explodes)
                 Explosion();
+            Actor actor = collision.gameObject.GetComponent<Actor>();
+            if (actor != null)
+            {
+                actor.UpdateHealth(damage);
+            }
             DestroyObject();
         }
     }
