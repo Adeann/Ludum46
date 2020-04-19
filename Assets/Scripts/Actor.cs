@@ -32,14 +32,22 @@ public class Actor : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
-        rb = this.GetComponent<Rigidbody2D>();
+        if (this.GetComponent<Rigidbody2D>() != null)
+        {
+            rb = this.GetComponent<Rigidbody2D>();
+            rb.drag = 2f;
+        }
+
         maxSpeed = 12f;
         hspeed = 5f;
         yForce = 250;
         fallMult = 2.5f;
         lowJumpMult = 2f;
-        rb.drag = 2f;
+
         vision = 10f;
+
+        maxHealth = 100F;
+        health = maxHealth;
 
         this.faction = Factions.Neutral;
     }

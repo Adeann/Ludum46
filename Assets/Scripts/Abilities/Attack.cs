@@ -71,7 +71,7 @@ public class Attack
         {
             float force = 5f;
             int bulletCount = 5;
-            float spreadRadius = 60f;
+            float spreadRadius = 120f;
             for (int i = 0; i < bulletCount; i++)
             {
                 GameObject go = new GameObject();
