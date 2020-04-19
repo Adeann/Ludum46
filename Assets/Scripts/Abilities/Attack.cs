@@ -15,6 +15,7 @@ public class Attack
     // Rate of Fire
     // n per second
     public float rof;
+    float lastAttack = Utility.GameState.gameTime;
     public float range;
     public Sprite Projectile;
     public AttackType attackType;
@@ -45,6 +46,13 @@ public class Attack
 
     private void attack()
     {
+        // Check rate of fire.
+        float deltaTime = Utility.GameState.gameTime - lastAttack;
+        if (deltaTime < 1 / (Mathf.Max(rof, 0.0001f)))
+            return; // Trying to attack too fast.
+        else // update the last attack to now.
+            lastAttack = Utility.GameState.gameTime;
+
         if (attackType == AttackType.ProjectileAttack)
         {
             GameObject go = new GameObject();
