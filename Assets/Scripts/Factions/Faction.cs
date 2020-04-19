@@ -26,6 +26,10 @@ public class Faction
     }
     public bool isAlly(Faction faction)
     {
+        if (this == faction)
+        {
+            return true;
+        }
         // if the list of allies contains the faction
         if (Allies.Contains(faction))
             return true;
