@@ -7,6 +7,7 @@ public class PlayerController : Actor
     // Start is called before the first frame update
     //private Actor actor;
     float nextShotTime = 0f;
+    //[SerializeField] Animator anim;
     new void Start()
     {
         // this.actor = gameObject.GetComponent<Actor>();    
@@ -40,6 +41,10 @@ public class PlayerController : Actor
         if (Input.GetAxis("Horizontal") != 0)
         {
             MovePlayer(Input.GetAxis("Horizontal"));
+            anim.SetBool("isMoving", true);
+        } else
+        {
+            anim.SetBool("isMoving", false);
         }
 
         if (Input.GetButton("Fire1") && this.primaryAttack.NextShotReady(nextShotTime))

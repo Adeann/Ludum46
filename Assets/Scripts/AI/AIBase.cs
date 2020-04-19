@@ -37,12 +37,28 @@ public class AIBase : MonoBehaviour
                 SetState(AIStates.Patrol);
                 EnterState(state);
             }
+
+
         }
+
+        UpdateAnimation();
         // if (IsSeeingPlayer()[0].transform != null || IsSeeingPlayer()[1].transform != null)
         // {
         //     SetState(AIStates.Follow);
         //     EnterState(state);
         // }
+    }
+
+    public void UpdateAnimation()
+    {
+        if (Mathf.Abs(actor.rb.velocity.x) > 0)
+        {
+            actor.anim.SetBool("isMoving", true);
+        }
+        else
+        {
+            actor.anim.SetBool("isMoving", false);
+        }
     }
 
     public void EnterState(AIStates stateEntered)
