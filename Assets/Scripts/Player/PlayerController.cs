@@ -20,42 +20,48 @@ public class PlayerController : Actor
 
     void Update()
     {
-        if (Input.GetAxis("Horizontal") != 0)
+        if (!hasDied)
         {
-            rb.velocity = new Vector2(0f, rb.velocity.y);
+            if (Input.GetAxis("Horizontal") != 0)
+            {
+                rb.velocity = new Vector2(0f, rb.velocity.y);
+            }
+
+            if (Input.GetButtonDown("Jump"))
+            {
+                Jump();
+            }
+
+            JumpModifier();
         }
-
-        if (Input.GetButtonDown("Jump"))
-        {
-            Jump();
-        }
-
-        JumpModifier();
-
     }
 
     new public void FixedUpdate()
     {
         base.FixedUpdate();
+        
+        if (!hasDied)
+        {
 
-        if (Input.GetAxis("Horizontal") != 0)
-        {
-            MovePlayer(Input.GetAxis("Horizontal"));
-            anim.SetBool("isMoving", true);
-        } else
-        {
-            anim.SetBool("isMoving", false);
-        }
+            if (Input.GetAxis("Horizontal") != 0)
+            {
+                MovePlayer(Input.GetAxis("Horizontal"));
+                anim.SetBool("isMoving", true);
+            } else
+            {
+                anim.SetBool("isMoving", false);
+            }
 
-        if (Input.GetButton("Fire1") && this.primaryAttack.NextShotReady(nextShotTime))
-        {
-            this.primaryAttack.UnModifiedAttack();
-            nextShotTime = this.primaryAttack.IncrementFireRateTime();
-        }
-        else if (Input.GetButton("Fire2") && this.secondaryAttack.NextShotReady(nextShotTime))
-        {
-            this.secondaryAttack.UnModifiedAttack();
-            nextShotTime = this.secondaryAttack.IncrementFireRateTime();
+            if (Input.GetButton("Fire1") && this.primaryAttack.NextShotReady(nextShotTime))
+            {
+                this.primaryAttack.UnModifiedAttack();
+                nextShotTime = this.primaryAttack.IncrementFireRateTime();
+            }
+            else if (Input.GetButton("Fire2") && this.secondaryAttack.NextShotReady(nextShotTime))
+            {
+                this.secondaryAttack.UnModifiedAttack();
+                nextShotTime = this.secondaryAttack.IncrementFireRateTime();
+            }
         }
     }
 
