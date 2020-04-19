@@ -114,15 +114,4 @@ public class Attack
 
         }
     }
-
-    public bool NextShotReady(float time)
-    {
-        return Time.time > time;
-    }
-
-    public float IncrementFireRateTime()
-    {
-        return Time.time + (1f / this.rof);
-    }
-
 }

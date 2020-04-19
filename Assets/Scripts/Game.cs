@@ -23,5 +23,12 @@ public class Game : MonoBehaviour
         {
             Utility.GameState.Toggle();
         }
+
+        if (Input.GetKeyUp("r"))
+        {
+            GameObject hunter = Instantiate(Resources.Load<GameObject>("Prefabs/Parasites/hunter"));
+            Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            hunter.transform.position = new Vector3(pos.x, pos.y, 0f);
+        }
     }
 }

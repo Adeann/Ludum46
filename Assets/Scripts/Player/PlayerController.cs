@@ -52,15 +52,13 @@ public class PlayerController : Actor
                 anim.SetBool("isMoving", false);
             }
 
-            if (Input.GetButton("Fire1") && this.primaryAttack.NextShotReady(nextShotTime))
+            if (Input.GetButton("Fire1"))
             {
-                this.primaryAttack.UnModifiedAttack();
-                nextShotTime = this.primaryAttack.IncrementFireRateTime();
+                this.primaryAttack.ModifiedAttack();
             }
-            else if (Input.GetButton("Fire2") && this.secondaryAttack.NextShotReady(nextShotTime))
+            else if (Input.GetButton("Fire2"))
             {
-                this.secondaryAttack.UnModifiedAttack();
-                nextShotTime = this.secondaryAttack.IncrementFireRateTime();
+                this.secondaryAttack.ModifiedAttack();
             }
         }
     }
