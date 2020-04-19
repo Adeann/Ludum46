@@ -179,6 +179,7 @@ GameObject:
   - component: {fileID: 661407157}
   - component: {fileID: 661407161}
   - component: {fileID: 661407162}
+  - component: {fileID: 661407159}
   m_Layer: 0
   m_Name: alien
   m_TagString: Untagged
@@ -257,6 +258,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &661407159
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 661407156}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: db6fc16e298512c4098a4678dc1ffe26, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!4 &661407160
 Transform:
   m_ObjectHideFlags: 0
@@ -313,6 +333,8 @@ MonoBehaviour:
   health: 0
   armor: 0
   vision: 0
+  hasDied: 0
+  anim: {fileID: 0}
   AI: {fileID: 0}
 --- !u!1 &794243390
 GameObject:
@@ -327,6 +349,7 @@ GameObject:
   - component: {fileID: 794243393}
   - component: {fileID: 794243392}
   - component: {fileID: 794243391}
+  - component: {fileID: 794243396}
   m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
@@ -360,6 +383,8 @@ MonoBehaviour:
   health: 0
   armor: 0
   vision: 0
+  hasDied: 0
+  anim: {fileID: 0}
 --- !u!50 &794243392
 Rigidbody2D:
   serializedVersion: 4
@@ -461,6 +486,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &794243396
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 794243390}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7c42cbabc41a9a144b3a08c81b80dfe5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1131587028
 GameObject:
   m_ObjectHideFlags: 0
