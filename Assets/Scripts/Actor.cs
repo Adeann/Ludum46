@@ -28,6 +28,7 @@ public class Actor : MonoBehaviour
     public Attack secondaryAttack;
 
     public Faction faction;
+    GameObject hp_bar;
     
     // Start is called before the first frame update
     public void Start()
@@ -43,6 +44,7 @@ public class Actor : MonoBehaviour
         yForce = 250;
         fallMult = 2.5f;
         lowJumpMult = 2f;
+        maxArmor = 1f;
 
         vision = 10f;
 
@@ -50,6 +52,19 @@ public class Actor : MonoBehaviour
         health = maxHealth;
 
         this.faction = Factions.Neutral;
+
+        SetupHPBars();
+    }
+    
+    void SetupHPBars()
+    {
+        this.hp_bar = new GameObject("hp_bar_max");
+        this.hp_bar.transform.SetParent(transform);
+        this.hp_bar.transform.localPosition = new Vector3(0f, 0.75f, 0f);
+        this.hp_bar.transform.localScale = new Vector3(75f, 15f, 1f);
+        SpriteRenderer sr = this.hp_bar.AddComponent<SpriteRenderer>();
+        sr.sprite = Resources.Load<Sprite>("Sprites/misc/white");
+        sr.color = new Color(136f,0f,21f,255f);
     }
 
     private void Update()
@@ -72,14 +87,15 @@ public class Actor : MonoBehaviour
 
 
     #region Health and Armor Changes
-    public void UpdateHealth(int change)
+    public void UpdateHealth(float change)
     {
-        this.health = Mathf.Clamp(health - change, 0f, maxHealth);
+        
+        this.health = Mathf.Clamp(health - (change - (armor * change)), 0f, maxHealth);
     }
 
-    public void UpdateArmor(int change)
+    public void UpdateArmor(float change)
     {
-
+        this.armor = Mathf.Clamp(armor - change, 0f, maxArmor);
     }
     #endregion
 
