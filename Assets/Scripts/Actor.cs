@@ -29,6 +29,8 @@ public class Actor : MonoBehaviour
 
     public Faction faction;
     GameObject hp_bar;
+
+    public Animator anim;
     
     // Start is called before the first frame update
     public void Start()
@@ -37,6 +39,11 @@ public class Actor : MonoBehaviour
         {
             rb = this.GetComponent<Rigidbody2D>();
             rb.drag = 2f;
+        }
+
+        if (this.GetComponent<Animator>() != null)
+        {
+            anim = this.GetComponent<Animator>();
         }
 
         maxSpeed = 12f;

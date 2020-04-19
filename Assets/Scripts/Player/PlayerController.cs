@@ -7,7 +7,7 @@ public class PlayerController : Actor
     // Start is called before the first frame update
     //private Actor actor;
     float nextShotTime = 0f;
-    [SerializeField] Animator anim;
+    //[SerializeField] Animator anim;
     new void Start()
     {
         // this.actor = gameObject.GetComponent<Actor>();    
