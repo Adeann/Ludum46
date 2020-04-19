@@ -27,17 +27,19 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        MoveCamera();
         if (CheckBounds())
         {
-            MoveCamera();
+            //MoveCamera();
         }
     }
 
     void MoveCamera()
     {
-        endPos = new Vector3(this.transform.position.x, this.transform.position.y + yOffset, camTrans.position.z);
+        //endPos = new Vector3(this.transform.position.x, this.transform.position.y + yOffset, camTrans.position.z);
 
-        camTrans.position = Vector3.Lerp(camTrans.position, endPos, 0.035f);
+        //camTrans.position = Vector3.Lerp(camTrans.position, endPos, 0.035f);
+        camTrans.position = new Vector3(transform.position.x, transform.position.y + yOffset, -10f);
     }
 
     bool CheckBounds()
